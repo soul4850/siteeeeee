@@ -1,0 +1,932 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Weekend Rhythm — Berlin</title>
+  <!-- Favicon (Pixabay sample) -->
+  <link rel="icon" href="https://cdn.pixabay.com/photo/2016/11/14/03/16/music-1822456_1280.png" type="image/png">
+
+  <meta name="description" content="Weekend Rhythm — 3 nights of music and vibes in Berlin. Day Pass, Weekend Pass, VIP Table.">
+
+  <style>
+    /* ---------------------------
+       RESET & BASE
+       --------------------------- */
+    :root{
+      --bg:#050507;
+      --card:#0f1114;
+      --muted:#9aa0a6;
+      --accent:#7b61ff; /* neon-ish */
+      --accent-2:#00e6a8;
+      --glass: rgba(255,255,255,0.03);
+      --glass-2: rgba(255,255,255,0.02);
+      --radius:14px;
+      --maxw:1200px;
+      --ff: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:var(--ff);
+      background: radial-gradient(1200px 700px at 10% 10%, rgba(123,97,255,0.06), transparent 8%),
+                  radial-gradient(900px 500px at 90% 90%, rgba(0,230,168,0.03), transparent 10%),
+                  var(--bg);
+      color:#e6eef8;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.4;
+    }
+
+    a{color:inherit; text-decoration:none}
+    img,video{max-width:100%; display:block;}
+
+    .container{max-width:var(--maxw); margin:0 auto; padding:28px;}
+
+    /* ---------------------------
+       HERO
+       --------------------------- */
+    .hero{
+      position:relative;
+      min-height:86vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+      border-bottom:1px solid rgba(255,255,255,0.03);
+    }
+    .hero video{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      z-index:0;
+      filter:brightness(0.35) contrast(1.05);
+    }
+    .hero .overlay{
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(180deg, rgba(5,5,7,0.45), rgba(5,5,7,0.7));
+      z-index:1;
+    }
+    /* abstract shapes */
+    .shape {
+      position:absolute;
+      z-index:0;
+      opacity:0.08;
+      filter:blur(32px);
+      transform:translateZ(0);
+    }
+    .shape--1{width:420px;height:420px;background:radial-gradient(circle,#7b61ff,#6029ff); top:-60px; left:-60px;}
+    .shape--2{width:360px;height:360px;background:radial-gradient(circle,#00e6a8,#008f6b); bottom:-80px; right:-80px;}
+
+    .hero-inner{
+      position:relative;
+      z-index:2;
+      width:100%;
+      padding:48px 20px;
+      display:flex;
+      gap:24px;
+      align-items:center;
+      justify-content:space-between;
+    }
+
+    .brand{
+      max-width:60%;
+      min-width:260px;
+    }
+    .brand h1{
+      margin:0;
+      font-size:clamp(28px,6vw,56px);
+      letter-spacing:1px;
+      line-height:0.95;
+      text-transform:uppercase;
+      background: linear-gradient(90deg,#fff 0%, #cbdcff 30%, #7b61ff 100%);
+      -webkit-background-clip: text;
+      background-clip:text;
+      color:transparent;
+      font-weight:800;
+    }
+    .meta{
+      margin-top:12px;
+      color:var(--muted);
+      display:flex;
+      gap:16px;
+      flex-wrap:wrap;
+      align-items:center;
+      font-weight:600;
+    }
+
+    .slogan{
+      margin-top:18px;
+      color:#dfe8ff;
+      font-size:1.05rem;
+      max-width:720px;
+    }
+
+    .controls{
+      display:flex;
+      gap:12px;
+      margin-top:18px;
+      align-items:center;
+      flex-wrap: wrap;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 16px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,0.05);
+      cursor:pointer;
+      color:inherit;
+      font-weight:700;
+      backdrop-filter: blur(4px);
+      transition: all 0.2s ease;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .btn--accent{
+      background: linear-gradient(90deg, rgba(123,97,255,0.14), rgba(0,230,168,0.06));
+      box-shadow: 0 6px 30px rgba(123,97,255,0.06), inset 0 -2px 8px rgba(255,255,255,0.02);
+      border: 1px solid rgba(123,97,255,0.18);
+    }
+
+    .countdown{
+      margin-left:8px;
+      font-weight:800;
+      font-size:1.05rem;
+      letter-spacing:0.6px;
+      white-space: nowrap;
+    }
+
+    /* language toggle */
+    .lang-toggle{display:flex; gap:8px; align-items:center;}
+    .lang-toggle button{padding:8px 10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04); background:transparent; color:var(--muted); cursor:pointer; transition: all 0.2s ease;}
+    .lang-toggle button.active{color:#fff; border-color:rgba(255,255,255,0.12); background:rgba(255,255,255,0.02);}
+    .lang-toggle button:hover{transform: translateY(-1px);}
+
+    /* ---------------------------
+       SECTIONS
+       --------------------------- */
+    section{padding:56px 0;}
+    .section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+    .h2{font-size:1.25rem;font-weight:800;letter-spacing:0.6px}
+    .lead{color:var(--muted); max-width:650px}
+
+    /* ABOUT */
+    .about{
+      display:grid;
+      grid-template-columns:1fr 420px;
+      gap:28px;
+      align-items:center;
+    }
+    .about .card{
+      background:var(--glass);
+      padding:20px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    .about img{border-radius:12px; height:100%; object-fit:cover; width:100%;}
+
+    /* LINEUP */
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+      gap:18px;
+    }
+    .artist{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      border-radius:12px;
+      padding:12px;
+      display:flex;
+      gap:12px;
+      align-items:center;
+      transform:translateY(20px);
+      opacity:0;
+      transition:all 600ms cubic-bezier(.2,.9,.2,1);
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    .artist.visible{transform:none; opacity:1}
+    .artist img{width:72px;height:72px;border-radius:10px;object-fit:cover;flex-shrink:0}
+
+    .artist h3{margin:0;font-size:1rem}
+    .artist .time{color:var(--muted); font-weight:700; font-size:0.92rem}
+
+    /* TICKETS */
+    .tickets{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:18px;
+    }
+    .ticket{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      padding:18px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.03);
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      transition: all 0.3s ease;
+    }
+    .ticket:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+    .ticket .price{font-size:1.6rem;font-weight:900}
+    .ticket .desc{color:var(--muted); font-size:0.95rem}
+
+    /* SCHEDULE timeline */
+    .timeline{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:12px;
+    }
+    .day{
+      background:var(--card);
+      border-radius:12px;
+      padding:12px;
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    .day h4{margin:0 0 8px 0}
+
+    /* LOCATION */
+    .map-wrap{border-radius:12px; overflow:hidden; border:1px solid rgba(255,255,255,0.03); height:420px;}
+
+    /* GALLERY */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+    .gallery-item {
+      border-radius: 12px;
+      overflow: hidden;
+      height: 200px;
+    }
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    .gallery-item:hover img {
+      transform: scale(1.05);
+    }
+
+    /* FOOTER */
+    footer{padding:28px 0; border-top:1px solid rgba(255,255,255,0.03); color:var(--muted); text-align:center}
+
+    /* responsive */
+    @media (max-width:950px){
+      .about{grid-template-columns:1fr}
+      .hero-inner{flex-direction:column; align-items:flex-start}
+      .brand{max-width:100%}
+      .tickets{grid-template-columns:1fr}
+      .container{padding:20px}
+      .location-grid{grid-template-columns:1fr !important;}
+    }
+    @media (max-width:768px){
+      .gallery {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      }
+      .gallery-item {
+        height: 150px;
+      }
+    }
+    @media (max-width:640px){
+      .controls {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .countdown {
+        margin-left: 0;
+        margin-top: 12px;
+      }
+    }
+    @media (max-width:520px){
+      .meta{flex-direction:column; align-items:flex-start}
+      .artist img{width:56px;height:56px}
+      .brand h1{font-size:clamp(24px,9vw,40px)}
+      section {
+        padding: 40px 0;
+      }
+      .section-head {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .hero {
+        min-height: 80vh;
+      }
+      .map-wrap {
+        height: 300px;
+      }
+    }
+
+    /* smooth scroll */
+    html{scroll-behavior:smooth}
+
+    /* Mobile menu for small screens */
+    .mobile-menu-btn {
+      display: none;
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 100;
+    }
+
+    @media (max-width: 768px) {
+      .mobile-menu-btn {
+        display: block;
+      }
+      .hero-inner aside {
+        display: none;
+      }
+      .mobile-menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background: var(--card);
+        z-index: 99;
+        padding: 80px 20px 20px;
+        transition: right 0.3s ease;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+      }
+      .mobile-menu.active {
+        right: 0;
+      }
+      .mobile-menu .btn {
+        display: block;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 10px;
+      }
+      .mobile-menu-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: transparent;
+        border: none;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Mobile menu button -->
+  <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-menu-close" id="mobileMenuClose">✕</button>
+    <div style="margin-top: 40px;">
+      <a class="btn" href="#tickets" data-i18n="tickets">Tickets</a>
+      <a class="btn" href="#lineup" data-i18n="lineup">Line-Up</a>
+      <a class="btn" href="#about" data-i18n="aboutTitle">About</a>
+      <a class="btn" href="#schedule" data-i18n="scheduleTitle">Schedule</a>
+      <a class="btn" href="#location" data-i18n="locationTitle">Location</a>
+      <a class="btn" href="#gallery" data-i18n="gallery">Gallery</a>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <header class="hero" id="home" aria-label="Weekend Rhythm hero">
+    <!-- Background video with direct links to working videos -->
+    <video id="bgvid" autoplay muted loop playsinline crossorigin="anonymous" preload="auto" poster="https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1">
+      <source src="https://assets.mixkit.co/videos/preview/mixkit-party-dancing-under-lights-1415-large.mp4" type="video/mp4">
+      <!-- Fallback image if video doesn't load -->
+    </video>
+
+    <div class="overlay"></div>
+
+    <!-- abstract shapes -->
+    <div class="shape shape--1" aria-hidden="true"></div>
+    <div class="shape shape--2" aria-hidden="true"></div>
+
+    <div class="container hero-inner">
+      <div class="brand">
+        <h1 data-i18n="title">Weekend Rhythm</h1>
+
+        <div class="meta">
+          <div><strong data-i18n="date">September 25–27 (Friday to Sunday)</strong></div>
+          <div>•</div>
+          <div data-i18n="time">22:00 – 04:00 daily</div>
+          <div>•</div>
+          <div data-i18n="location">Berlin</div>
+        </div>
+
+        <p class="slogan" data-i18n="slogan">Three nights. Deep beats. Neon lights. Join us for an unforgettable weekend.</p>
+
+        <div class="controls">
+          <div class="lang-toggle" role="tablist" aria-label="language switch">
+            <button id="btn-de" class="active" aria-pressed="true">DE</button>
+            <button id="btn-en" aria-pressed="false">EN</button>
+          </div>
+
+          <button class="btn btn--accent" id="tickets-cta" data-i18n="buyNow">Jetzt buchen / Book now</button>
+
+          <div class="countdown" aria-live="polite" id="countdown">
+            <span data-i18n="countStarts">Starts in</span> <strong id="cd-days">--</strong>d <strong id="cd-hours">--</strong>h
+          </div>
+        </div>
+      </div>
+
+      <!-- quick info card -->
+      <aside style="min-width:220px; background:var(--glass); padding:18px; border-radius:12px; border:1px solid rgba(255,255,255,0.03);">
+        <div style="font-weight:800; font-size:1.05rem;" data-i18n="nextEvent">Next event</div>
+        <div style="color:var(--muted); margin-top:6px;" data-i18n="when">Sept 25–27 • Berlin</div>
+        <div style="margin-top:12px; display:flex; gap:8px;">
+          <a class="btn" href="#tickets" data-i18n="tickets">Tickets</a>
+          <a class="btn" href="#lineup" data-i18n="lineup">Line-Up</a>
+        </div>
+      </aside>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+
+      <!-- ABOUT -->
+      <section id="about" aria-labelledby="about-title">
+        <div class="section-head">
+          <h2 class="h2" id="about-title" data-i18n="aboutTitle">About</h2>
+          <p class="lead" data-i18n="aboutLead">An intimate 3-night party with local and international DJs, craft cocktails and immersive visuals.</p>
+        </div>
+
+        <div class="about">
+          <div class="card">
+            <p data-i18n="aboutText">
+              Weekend Rhythm brings together a curated selection of DJs and performers across three nights. Expect deep grooves, tight sound, a friendly crowd and a bar stocked with signature cocktails. The venue offers an intimate dancefloor and vivid VJ visuals — perfect for losing time.
+            </p>
+            <ul style="color:var(--muted); margin-top:12px;">
+              <li data-i18n="aboutBul1">Immersive lighting and VJs</li>
+              <li data-i18n="aboutBul2">Quality sound system</li>
+              <li data-i18n="aboutBul3">Signature cocktails & safe space</li>
+            </ul>
+          </div>
+
+          <div>
+            <!-- image from Pixabay/Pexels -->
+            <img src="https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Club interior with neon lights" loading="lazy">
+          </div>
+        </div>
+      </section>
+
+      <!-- LINE-UP -->
+      <section id="lineup" aria-labelledby="lineup-title">
+        <div class="section-head">
+          <h2 class="h2" id="lineup-title" data-i18n="lineupTitle">Line-Up</h2>
+          <p class="lead" data-i18n="lineupLead">A hand-picked selection of DJs across the weekend.</p>
+        </div>
+
+        <div class="grid" id="artistsGrid" aria-live="polite">
+          <!-- Artist cards generated by JS; sample static ones here for noscript/readability -->
+          <article class="artist" data-artist="A. Nova">
+            <img src="https://images.pexels.com/photos/3645805/pexels-photo-3645805.jpeg?auto=compress&cs=tinysrgb&w=400" alt="A. Nova">
+            <div>
+              <h3>A. Nova</h3>
+              <div class="time">Fri • 23:00 – 01:00</div>
+            </div>
+          </article>
+
+          <article class="artist" data-artist="Luma">
+            <img src="https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Luma">
+            <div>
+              <h3>Luma</h3>
+              <div class="time">Fri • 01:15 – 03:00</div>
+            </div>
+          </article>
+
+          <article class="artist" data-artist="DJ Will">
+            <img src="https://images.pexels.com/photos/167636/pexels-photo-167636.jpeg?auto=compress&cs=tinysrgb&w=400" alt="DJ Will">
+            <div>
+              <h3>DJ Will</h3>
+              <div class="time">Sat • 22:30 – 00:30</div>
+            </div>
+          </article>
+
+          <article class="artist" data-artist="Sera">
+            <img src="https://images.pexels.com/photos/2350325/pexels-photo-2350325.jpeg" alt="Sera">
+            <div>
+              <h3>Sera</h3>
+              <div class="time">Sat • 00:45 – 02:30</div>
+            </div>
+          </article>
+
+          <article class="artist" data-artist="Miko">
+            <img src="https://images.pexels.com/photos/3681178/pexels-photo-3681178.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Miko">
+            <div>
+              <h3>Miko</h3>
+              <div class="time">Sun • 23:00 – 01:00</div>
+            </div>
+          </article>
+
+          <article class="artist" data-artist="Riv">
+            <img src="https://images.pexels.com/photos/164821/pexels-photo-164821.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Riv">
+            <div>
+              <h3>Riv</h3>
+              <div class="time">Sun • 01:15 – 03:30</div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- GALLERY SECTION -->
+      <section id="gallery" aria-labelledby="gallery-title">
+        <div class="section-head">
+          <h2 class="h2" id="gallery-title" data-i18n="galleryTitle">Gallery</h2>
+          <p class="lead" data-i18n="galleryLead">Experience the atmosphere from our previous events.</p>
+        </div>
+
+        <div class="gallery">
+          <div class="gallery-item">
+            <img src="https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Club atmosphere with neon lights" loading="lazy">
+          </div>
+          <div class="gallery-item">
+            <img src="https://images.pexels.com/photos/976866/pexels-photo-976866.jpeg?auto=compress&cs=tinysrgb&w=400" alt="DJ performing at nightclub" loading="lazy">
+          </div>
+          <div class="gallery-item">
+            <img src="https://images.pexels.com/photos/2147029/pexels-photo-2147029.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Crowd dancing at a concert" loading="lazy">
+          </div>
+          <div class="gallery-item">
+            <img src="https://images.pexels.com/photos/307847/pexels-photo-307847.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Nightclub with laser lights" loading="lazy">
+          </div>
+          <div class="gallery-item">
+            <img src="https://images.pexels.com/photos/1021876/pexels-photo-1021876.jpeg?auto=compress&cs=tinysrgb&w=400" alt="People celebrating with drinks" loading="lazy">
+          </div>
+          <div class="gallery-item">
+            <img src="https://images.pexels.com/photos/2114365/pexels-photo-2114365.jpeg?auto=compress&cs=tinysrgb&w=400" alt="DJ mixing music" loading="lazy">
+          </div>
+        </div>
+      </section>
+
+      <!-- TICKETS -->
+      <section id="tickets" aria-labelledby="tickets-title">
+        <div class="section-head">
+          <h2 class="h2" id="tickets-title" data-i18n="ticketsTitle">Tickets</h2>
+          <p class="lead" data-i18n="ticketsLead">Choose your pass — Day, Weekend or VIP. All bookings via WhatsApp with a prefilled message.</p>
+        </div>
+
+        <div class="tickets" role="list">
+          <div class="ticket" role="listitem" aria-label="Day Pass">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <div style="font-weight:900" data-i18n="dayPass">Day Pass</div>
+                <div class="desc" data-i18n="dayDesc">Access for 1 day, dancefloor, bar, DJ sets.</div>
+              </div>
+              <div class="price">50 €</div>
+            </div>
+            <div style="margin-top:auto; display:flex; gap:8px;">
+              <a class="btn" href="https://wa.me/491234567890?text=Hallo!%20Ich%20möchte%20ein%20Day%20Pass%20für%20Weekend%20Rhythm%20buchen." target="_blank" rel="noopener" data-i18n="bookNow">Jetzt buchen</a>
+            </div>
+          </div>
+
+          <div class="ticket" role="listitem" aria-label="Weekend Pass">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <div style="font-weight:900" data-i18n="weekendPass">Weekend Pass</div>
+                <div class="desc" data-i18n="weekendDesc">3 days, access to all parties — better value than single tickets.</div>
+              </div>
+              <div class="price">120 €</div>
+            </div>
+            <div style="margin-top:auto; display:flex; gap:8px;">
+              <a class="btn btn--accent" href="https://wa.me/491234567890?text=Hallo!%20Ich%20möchte%20ein%20Weekend%20Pass%20für%20Weekend%20Rhythm%20buchen." target="_blank" rel="noopener" data-i18n="bookNow">Jetzt buchen</a>
+            </div>
+          </div>
+
+          <div class="ticket" role="listitem" aria-label="VIP Table">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <div style="font-weight:900" data-i18n="vip">VIP Table</div>
+                <div class="desc" data-i18n="vipDesc">Private table, service, drinks package, best view of the stage.</div>
+              </div>
+              <div class="price">300 €</div>
+            </div>
+            <div style="margin-top:auto; display:flex; gap:8px;">
+              <a class="btn" href="https://wa.me/491234567890?text=Hallo!%20Ich%20möchte%20ein%20VIP%20Table%20für%20Weekend%20Rhythm%20buchen." target="_blank" rel="noopener" data-i18n="bookNow">Jetzt buchen</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCHEDULE -->
+      <section id="schedule" aria-labelledby="schedule-title">
+        <div class="section-head">
+          <h2 class="h2" id="schedule-title" data-i18n="scheduleTitle">Schedule</h2>
+          <p class="lead" data-i18n="scheduleLead">Line-up by day — times approximate.</p>
+        </div>
+
+        <div class="timeline">
+          <div class="day">
+            <h4 data-i18n="friday">Friday</h4>
+            <ul style="padding-left:14px; color:var(--muted);">
+              <li>22:00 — Doors</li>
+              <li>23:00 — A. Nova</li>
+              <li>01:15 — Luma</li>
+            </ul>
+          </div>
+
+          <div class="day">
+            <h4 data-i18n="saturday">Saturday</h4>
+            <ul style="padding-left:14px; color:var(--muted);">
+              <li>22:00 — Doors</li>
+              <li>22:30 — DJ Will</li>
+              <li>00:45 — Sera</li>
+            </ul>
+          </div>
+
+          <div class="day">
+            <h4 data-i18n="sunday">Sunday</h4>
+            <ul style="padding-left:14px; color:var(--muted);">
+              <li>22:00 — Doors</li>
+              <li>23:00 — Miko</li>
+              <li>01:15 — Riv</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- LOCATION & CONTACT -->
+      <section id="location" aria-labelledby="location-title">
+        <div class="section-head">
+          <h2 class="h2" id="location-title" data-i18n="locationTitle">Location & Contact</h2>
+          <p class="lead" data-i18n="locationLead">Find us in the heart of Berlin. Questions? Message us on WhatsApp.</p>
+        </div>
+
+        <div class="location-grid" style="display:grid; grid-template-columns:1fr 360px; gap:18px; align-items:start;">
+          <div class="map-wrap">
+            <!-- Google Maps embed (replace place id/address as needed) -->
+            <iframe
+              title="Event location map"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2429.462208243521!2d13.404954316026515!3d52.52000667981252!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47a851c8f3a6c0f1%3A0x2b381a2d6d8b7d6f!2sBerlin%2C%20Germany!5e0!3m2!1sen!2sus!4v1693560000000"
+              width="100%" height="100%" style="border:0;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+
+          <aside style="background:var(--glass); padding:16px; border-radius:12px; border:1px solid rgba(255,255,255,0.03);">
+            <div style="font-weight:800" data-i18n="addressTitle">Address</div>
+            <div style="color:var(--muted); margin-top:6px" data-i18n="address">Berlin (Exact address provided after booking)</div>
+
+            <div style="margin-top:12px;">
+              <a class="btn btn--accent" href="https://wa.me/491234567890?text=Hallo!%20Ich%20habe%20eine%20Frage%20zu%20Weekend%20Rhythm." target="_blank" rel="noopener" data-i18n="contactWhats">Noch Fragen? Schreibe uns direkt auf WhatsApp!</a>
+            </div>
+
+            <div style="margin-top:12px; color:var(--muted); font-size:0.9rem;">
+              <div data-i18n="contactEmail">contact@weekendrhythm.example</div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div>&copy; <span id="year"></span> Weekend Rhythm — All rights reserved.</div>
+    </div>
+  </footer>
+
+  <!-- ==============================
+       JavaScript: translations, countdown,
+       IntersectionObserver animations, language toggle
+       ============================== -->
+  <script>
+    /***********************************************************************
+     * Basic i18n (DE <-> EN)
+     * All texts reference data-i18n keys in the markup.
+     ***********************************************************************/
+    const translations = {
+      de: {
+        title: "Weekend Rhythm",
+        date: "25.–27. September (Freitag–Sonntag)",
+        time: "22:00 – 04:00 täglich",
+        location: "Berlin",
+        slogan: "Drei Nächte. Tiefe Beats. Neonlichter. Sei dabei.",
+        nextEvent: "Nächstes Event",
+        when: "25.–27. Sep • Berlin",
+        buyNow: "Jetzt buchen",
+        aboutTitle: "Über das Event",
+        aboutLead: "Eine intime 3-Nächte-Party mit lokalen und internationalen DJs, Craft-Cocktails und immersiven Visuals.",
+        aboutText: "Weekend Rhythm bringt eine kuratierte Auswahl an DJs über drei Nächte zusammen. Erwarte tiefe Grooves, ein gutes Soundsystem und kreative Drinks.",
+        aboutBul1: "Immersive Beleuchtung und VJs",
+        aboutBul2: "Hochwertiges Soundsystem",
+        aboutBul3: "Signature Cocktails & safe space",
+        lineupTitle: "Line-Up",
+        lineupLead: "Handverlesene DJs für das Wochenende.",
+        galleryTitle: "Galerie",
+        galleryLead: "Erlebe die Atmosphäre unserer bisherigen Events.",
+        ticketsTitle: "Tickets",
+        ticketsLead: "Wähle dein Ticket — Day Pass, Weekend Pass oder VIP Tisch. Buchung via WhatsApp.",
+        dayPass: "Day Pass",
+        dayDesc: "Zugang für 1 Tag, Tanzfläche, Bar, DJ-Sets.",
+        weekendPass: "Weekend Pass",
+        weekendDesc: "3 Tage, Zugang zu allen Partys — besserer Wert.",
+        vip: "VIP Table",
+        vipDesc: "Privater Tisch, Service, Getränke-Paket, beste Sicht.",
+        bookNow: "Jetzt buchen",
+        scheduleTitle: "Zeitplan",
+        scheduleLead: "Line-Up nach Tagen — Zeiten ungefähr.",
+        friday: "Freitag",
+        saturday: "Samstag",
+        sunday: "Sonntag",
+        locationTitle: "Ort & Kontakt",
+        locationLead: "Finde uns im Herzen Berlins. Fragen? Schreib uns auf WhatsApp.",
+        addressTitle: "Adresse",
+        address: "Berlin (exakte Adresse nach Buchung)",
+        contactWhats: "Noch Fragen? Schreibe uns direkt auf WhatsApp!",
+        contactEmail: "kontakt@weekendrhythm.example",
+        countStarts: "Startet in",
+        tickets: "Tickets",
+        lineup: "Line-Up",
+        gallery: "Galerie"
+      },
+      en: {
+        title: "Weekend Rhythm",
+        date: "September 25–27 (Friday to Sunday)",
+        time: "22:00 – 04:00 daily",
+        location: "Berlin",
+        slogan: "Three nights. Deep beats. Neon lights. Join us for an unforgettable weekend.",
+        nextEvent: "Next event",
+        when: "Sept 25–27 • Berlin",
+        buyNow: "Book now",
+        aboutTitle: "About",
+        aboutLead: "An intimate 3-night party with local and international DJs, craft cocktails and immersive visuals.",
+        aboutText: "Weekend Rhythm brings together a curated selection of DJs across three nights. Expect deep grooves, tight sound, and signature cocktails.",
+        aboutBul1: "Immersive lighting & VJs",
+        aboutBul2: "High-quality sound system",
+        aboutBul3: "Signature cocktails & safe space",
+        lineupTitle: "Line-Up",
+        lineupLead: "A hand-picked selection of DJs across the weekend.",
+        galleryTitle: "Gallery",
+        galleryLead: "Experience the atmosphere from our previous events.",
+        ticketsTitle: "Tickets",
+        ticketsLead: "Choose your pass — Day, Weekend or VIP. All bookings via WhatsApp with a prefilled message.",
+        dayPass: "Day Pass",
+        dayDesc: "Access for 1 day, dancefloor, bar, DJ sets.",
+        weekendPass: "Weekend Pass",
+        weekendDesc: "3 days, access to all parties — better value.",
+        vip: "VIP Table",
+        vipDesc: "Private table, service, drinks package, best view of the stage.",
+        bookNow: "Book now",
+        scheduleTitle: "Schedule",
+        scheduleLead: "Line-up by day — times approximate.",
+        friday: "Friday",
+        saturday: "Saturday",
+        sunday: "Sunday",
+        locationTitle: "Location & Contact",
+        locationLead: "Find us in the heart of Berlin. Questions? Message us on WhatsApp.",
+        addressTitle: "Address",
+        address: "Berlin (Exact address provided after booking)",
+        contactWhats: "Any questions? Message us directly on WhatsApp!",
+        contactEmail: "contact@weekendrhythm.example",
+        countStarts: "Starts in",
+        tickets: "Tickets",
+        lineup: "Line-Up",
+        gallery: "Gallery"
+      }
+    };
+
+    let lang = 'de'; // default language
+
+    function applyTranslations(){
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        const text = translations[lang][key];
+        if(text) el.textContent = text;
+      });
+      // update lang button visuals
+      document.getElementById('btn-de').classList.toggle('active', lang==='de');
+      document.getElementById('btn-en').classList.toggle('active', lang==='en');
+      document.getElementById('btn-de').setAttribute('aria-pressed', lang==='de');
+      document.getElementById('btn-en').setAttribute('aria-pressed', lang==='en');
+    }
+
+    document.getElementById('btn-de').addEventListener('click', ()=>{ lang='de'; applyTranslations(); });
+    document.getElementById('btn-en').addEventListener('click', ()=>{ lang='en'; applyTranslations(); });
+
+    applyTranslations();
+
+    /***********************************************************************
+     * Countdown to event (Berlin timezone assumption).
+     * Event start: September 25, 2025 at 22:00 local (Europe/Berlin).
+     * The clock will show days/hours remaining.
+     ***********************************************************************/
+    function startCountdown(){
+      // set target in UTC by constructing using local string for Berlin.
+      // For simplicity we use ISO-like date with time and interpret as local time of user,
+      // but we will assume user in Europe/Amsterdam (as per meta).
+      const target = new Date('2025-09-25T22:00:00'); // user asked September 25–27
+      function update(){
+        const now = new Date();
+        let diff = Math.max(0, target - now);
+        const days = Math.floor(diff / (1000*60*60*24));
+        diff -= days * (1000*60*60*24);
+        const hours = Math.floor(diff / (1000*60*60));
+        diff -= hours * (1000*60*60);
+        const minutes = Math.floor(diff / (1000*60));
+        const seconds = Math.floor((diff % (1000*60))/1000);
+
+        document.getElementById('cd-days').textContent = String(days).padStart(2,'0');
+        document.getElementById('cd-hours').textContent = String(hours).padStart(2,'0');
+        // if reached zero show message
+        if(target - now <= 0){
+          document.getElementById('countdown').textContent = translations[lang].countStarts + ': 00d 00h';
+        }
+      }
+      update();
+      setInterval(update, 1000);
+    }
+    startCountdown();
+
+    // put current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    /***********************************************************************
+     * IntersectionObserver: animate artist cards when visible
+     ***********************************************************************/
+    const observer = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          entry.target.classList.add('visible');
+        }
+      });
+    }, {threshold:0.12});
+
+    document.querySelectorAll('.artist').forEach(node=>{
+      observer.observe(node);
+    });
+
+    /***********************************************************************
+     * Smooth scroll for ticket CTA to #tickets and for header button
+     ***********************************************************************/
+    document.getElementById('tickets-cta').addEventListener('click', (e)=>{
+      e.preventDefault();
+      document.getElementById('tickets').scrollIntoView({behavior:'smooth', block:'start'});
+    });
+
+    /***********************************************************************
+     * Optional: keyboard accessible focus styles for better UX
+     ***********************************************************************/
+    document.addEventListener('keyup', (e)=>{
+      if(e.key === 'Tab') document.body.classList.add('show-focus');
+    });
+
+    /***********************************************************************
+     * Accessibility: if autoplay video is blocked (some browsers), show controls
+     ***********************************************************************/
+    const bgvid = document.getElementById('bgvid');
+    bgvid.addEventListener('error', ()=> {
+      bgvid.controls = true;
+    });
+
+    /***********************************************************************
+     * Mobile menu functionality
+     ***********************************************************************/
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenuClose = document.getElementById('mobileMenuClose');
+    const mobileMenu = document.getElementById('mobileMenu');
+    
+    if (mobileMenuBtn && mobileMenu) {
+      mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      });
+      
+      mobileMenuClose.addEventListener('click', () => {
+        mobileMenu.classList.remove('active');
+        document.body.style.overflow = 'auto';
+      });
+      
+      // Close menu when clicking on links
+      const menuLinks = mobileMenu.querySelectorAll('a');
+      menuLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.remove('active');
+          document.body.style.overflow = 'auto';
+        });
+      });
+    }
+
+    /* END OF SCRIPT */
+  </script>
+
+  <!-- No external libs used (pure HTML/CSS/JS) -->
+</body>
+</html>
